@@ -41,7 +41,8 @@ function generateNickname(people) {
         const modifiedLastName = person.lastName.slice(0, 3) // Take the first three letters of the last name
         const transformedLastName = modifiedLastName[2] + modifiedLastName[1] + modifiedLastName[0] // and swap the first and third letters
         const nickname = `${reversedFirstName}${transformedLastName}`
-        return nickname.charAt(0).toUpperCase() + nickname.slice(1).toLowerCase()
+        person.nickname = nickname.charAt(0).toUpperCase() + nickname.slice(1).toLowerCase()
+        return person
     })
 }
 
