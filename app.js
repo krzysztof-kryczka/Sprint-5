@@ -5,7 +5,7 @@ const inputDataPeople = [
     },
     {
         firstName: 'Roman',
-        lastName: 'Kowalska',
+        lastName: 'Kowalski',
     },
     {
         firstName: 'Halina',
@@ -25,26 +25,30 @@ const inputDataPeople = [
     },
 ]
 
-function nonString(name) {
+const nonString = (name) => {
     return typeof name !== 'string'
 }
 
-function generateNickname(people) {
-    return people.map((person) => {
-        if (nonString(person.firstName) || nonString(person.lastName)) {
-            return person
+const generateNickname = (people) => {
+    return people.map(({ firstName, lastName }) => {
+        if (nonString(firstName) || nonString(lastName)) {
+            return { firstName, lastName }
         }
-        if (person.firstName.length < 3 || person.lastName.length < 3) {
-            return person
+        if (firstName.length < 3 || lastName.length < 3) {
+            return { firstName, lastName }
         }
-        const reversedFirstName = person.firstName.slice(-3).split('').reverse().join('')
-        const modifiedLastName = person.lastName.slice(0, 3) // Take the first three letters of the last name
+        const reversedFirstName = firstName
+            .substring(firstName.length - 3)
+            .split('')
+            .reverse()
+            .join('')
+        const modifiedLastName = lastName.substring(0, 3) // Take the first three letters of the last name
         const transformedLastName = modifiedLastName[2] + modifiedLastName[1] + modifiedLastName[0] // and swap the first and third letters
         const nickname = `${reversedFirstName}${transformedLastName}`
-        person.nickname = nickname.charAt(0).toUpperCase() + nickname.slice(1).toLowerCase()
-        return person
+        return { firstName, lastName, nickname: nickname.charAt(0).toUpperCase() + nickname.slice(1).toLowerCase() }
     })
 }
 
-const outputData = generateNickname(inputDataPeople)
-console.log(outputData)
+const outputDataWithNick = generateNickname(inputDataPeople)
+console.log('\n\nZadanie 1:\n\n', outputDataWithNick)
+
