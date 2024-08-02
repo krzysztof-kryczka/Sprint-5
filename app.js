@@ -77,7 +77,7 @@ const processedPeople = calculateAge(outputDataWithNick)
 console.log('\n\nZadanie 2:\n\n', processedPeople)
 
 const findMostCommonLetter = (people) => {
-    return people.map((person) => {
+    const newArray = people.map((person) => {
         const allLetters = person.firstName + person.lastName + person.nickname
         const letterCounts = allLetters
             .toLowerCase()
@@ -99,10 +99,14 @@ const findMostCommonLetter = (people) => {
             }
         }
         return {
-            letterCounts,
-            mostCommonLetter,
+            ...person,
+            mostCommonLetter: {
+                letter: mostCommonLetter,
+                count: maxCount,
+            },
         }
     })
+    return newArray
 }
 
 const resultWithCommonLetter = findMostCommonLetter(processedPeople)
