@@ -75,3 +75,25 @@ const calculateAge = (people) => {
 
 const processedPeople = calculateAge(outputDataWithNick)
 console.log('\n\nZadanie 2:\n\n', processedPeople)
+
+const findMostCommonLetter = (people) => {
+    return people.map((person) => {
+        const allLetters = person.firstName + person.lastName + person.nickname
+        const letterCounts = allLetters
+            .toLowerCase()
+            .split('')
+            .reduce((counts, letter) => {
+                //  if counts[letter] exists (is not null or undefined), we increment its value by 1. Otherwise, we set it to 1
+                counts[letter] = ++counts[letter] || 1
+                console.log(counts)
+                return counts
+            }, {})
+        
+        return {
+            letterCounts,
+        }
+    })
+}
+
+const resultWithCommonLetter = findMostCommonLetter(processedPeople)
+console.log('\n\nZadanie 3:\n\n', resultWithCommonLetter)
