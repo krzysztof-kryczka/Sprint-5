@@ -45,24 +45,31 @@ const generateNickname = (people) => {
         const modifiedLastName = lastName.substring(0, 3) // Take the first three letters of the last name
         const transformedLastName = modifiedLastName[2] + modifiedLastName[1] + modifiedLastName[0] // and swap the first and third letters
         const nickname = `${reversedFirstName}${transformedLastName}`
-        return { firstName, lastName, nickname: nickname.charAt(0).toUpperCase() + nickname.slice(1).toLowerCase() }
+        return {
+            firstName,
+            lastName,
+            nickname: nickname.charAt(0).toUpperCase() + nickname.slice(1).toLowerCase(),
+        }
     })
 }
 
 const outputDataWithNick = generateNickname(inputDataPeople)
 console.log('\n\nZadanie 1:\n\n', outputDataWithNick)
 
-function calculateAge(people) {
+const calculateAge = (people) => {
     return people
         .filter(({ nickname }) => nickname)
-        .map(({ firstName, lastName, nickname }, index) => {
-            const totalLetters = firstName.length + lastName.length
-            let sumAllLetters = 0
-            for (const prop in { firstName, lastName, nickname }) {
-                sumAllLetters = sumAllLetters + prop.length
-            }
-            const age = totalLetters % 2 === 0 ? totalLetters : Math.ceil(sumAllLetters / (index === 0 ? 1 : index))
-            return { firstName, lastName, nickname, age }
+        .map((person, index) => {
+            const totalLetters = person.firstName.length + person.lastName.length
+            const sumAllLetters = Object.keys(person).reduce(
+                (accumulator, currentValue) => accumulator + currentValue.length,
+                0
+            )
+            const age =
+                totalLetters % 2 === 0
+                    ? totalLetters
+                    : Math.ceil(sumAllLetters / (index === 0 ? 1 : index))
+            return { ...person, age }
         })
 }
 
