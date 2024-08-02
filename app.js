@@ -78,24 +78,21 @@ console.log('\n\nZadanie 2:\n\n', processedPeople)
 
 const findMostCommonLetter = (people) => {
     const newArray = people.map((person) => {
-        const allLetters = person.firstName + person.lastName + person.nickname
+        const allLetters = `${person.firstName}${person.lastName}${person.nickname}`
         const letterCounts = allLetters
             .toLowerCase()
             .split('')
             .reduce((counts, letter) => {
                 //  if counts[letter] exists (is not null or undefined), we increment its value by 1. Otherwise, we set it to 1
                 counts[letter] = ++counts[letter] || 1
-                console.log(counts)
                 return counts
             }, {})
         let mostCommonLetter = ''
         let maxCount = 0
         for (const [letter, count] of Object.entries(letterCounts)) {
-            if (count > maxCount) {
+            if (count > maxCount || (count === maxCount && letter < mostCommonLetter)) {
                 mostCommonLetter = letter
                 maxCount = count
-            } else if (count === maxCount) {
-                mostCommonLetter = letter < mostCommonLetter ? letter : mostCommonLetter
             }
         }
         return {
