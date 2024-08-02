@@ -52,3 +52,10 @@ const generateNickname = (people) => {
 const outputDataWithNick = generateNickname(inputDataPeople)
 console.log('\n\nZadanie 1:\n\n', outputDataWithNick)
 
+function calculateAge(people) {
+    return people
+        .filter(({ nickname }) => nickname)
+}
+
+const processedPeople = calculateAge(outputDataWithNick)
+console.log('\n\nZadanie 2:\n\n', processedPeople)
