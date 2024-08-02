@@ -88,9 +88,19 @@ const findMostCommonLetter = (people) => {
                 console.log(counts)
                 return counts
             }, {})
-        
+        let mostCommonLetter = ''
+        let maxCount = 0
+        for (const [letter, count] of Object.entries(letterCounts)) {
+            if (count > maxCount) {
+                mostCommonLetter = letter
+                maxCount = count
+            } else if (count === maxCount) {
+                mostCommonLetter = letter < mostCommonLetter ? letter : mostCommonLetter
+            }
+        }
         return {
             letterCounts,
+            mostCommonLetter,
         }
     })
 }
