@@ -55,9 +55,14 @@ console.log('\n\nZadanie 1:\n\n', outputDataWithNick)
 function calculateAge(people) {
     return people
         .filter(({ nickname }) => nickname)
-        .map(({ firstName, lastName }) => {
+        .map(({ firstName, lastName, nickname }, index) => {
             const totalLetters = firstName.length + lastName.length
-            return { firstName, lastName, totalLetters }
+            let sumAllLetters = 0
+            for (const prop in { firstName, lastName, nickname }) {
+                sumAllLetters = sumAllLetters + prop.length
+            }
+            const age = totalLetters % 2 === 0 ? totalLetters : Math.ceil(sumAllLetters / (index === 0 ? 1 : index))
+            return { firstName, lastName, nickname, age }
         })
 }
 
