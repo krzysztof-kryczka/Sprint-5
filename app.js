@@ -25,16 +25,16 @@ const inputDataPeople = [
     },
 ]
 
-const nonString = (name) => {
-    return typeof name !== 'string'
-}
+const nonString = (name) => typeof name !== 'string'
 
 const generateNickname = (people) => {
     return people.map(({ firstName, lastName }) => {
-        if (nonString(firstName) || nonString(lastName)) {
-            return { firstName, lastName }
-        }
-        if (firstName.length < 3 || lastName.length < 3) {
+        if (
+            nonString(firstName) ||
+            nonString(lastName) ||
+            firstName.length < 3 ||
+            lastName.length < 3
+        ) {
             return { firstName, lastName }
         }
         const reversedFirstName = firstName
@@ -43,12 +43,14 @@ const generateNickname = (people) => {
             .reverse()
             .join('')
         const modifiedLastName = lastName.substring(0, 3) // Take the first three letters of the last name
-        const transformedLastName = modifiedLastName[2] + modifiedLastName[1] + modifiedLastName[0] // and swap the first and third letters
+        const transformedLastName = `${modifiedLastName[2]}${modifiedLastName[1]}${modifiedLastName[0]}` // and swap the first and third letters
         const nickname = `${reversedFirstName}${transformedLastName}`
         return {
             firstName,
             lastName,
-            nickname: nickname.charAt(0).toUpperCase() + nickname.slice(1).toLowerCase(),
+            nickname: `${nickname.charAt(0).toUpperCase()}${nickname
+                .slice(1)
+                .toLowerCase()}`,
         }
     })
 }
@@ -60,15 +62,19 @@ const calculateAge = (people) => {
     return people
         .filter(({ nickname }) => nickname)
         .map((person, index) => {
-            const totalLetters = person.firstName.length + person.lastName.length
-            const sumAllLetters = Object.keys(person).reduce(
-                (accumulator, currentValue) => accumulator + currentValue.length,
-                0
-            )
-            const age =
-                totalLetters % 2 === 0
-                    ? totalLetters
-                    : Math.ceil(sumAllLetters / (index === 0 ? 1 : index))
+            const totalLetters =
+                person.firstName.length + person.lastName.length
+            let age = 0
+            if (totalLetters % 2 === 0) {
+                age = totalLetters
+            } else {
+                const sumAllLetters = Object.keys(person).reduce(
+                    (accumulator, currentValue) =>
+                        accumulator + currentValue.length,
+                    0
+                )
+                age = Math.ceil(sumAllLetters / (index === 0 ? 1 : index))
+            }
             return { ...person, age }
         })
 }
@@ -90,7 +96,10 @@ const findMostCommonLetter = (people) => {
         let mostCommonLetter = ''
         let maxCount = 0
         for (const [letter, count] of Object.entries(letterCounts)) {
-            if (count > maxCount || (count === maxCount && letter < mostCommonLetter)) {
+            if (
+                count > maxCount ||
+                (count === maxCount && letter < mostCommonLetter)
+            ) {
                 mostCommonLetter = letter
                 maxCount = count
             }
